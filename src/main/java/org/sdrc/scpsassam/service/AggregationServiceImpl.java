@@ -58,7 +58,6 @@ public class AggregationServiceImpl implements AggregationService {
 	private AgencyRepository agencyRepository;
 	@Autowired
 	private IndicatorRepository indicatorRepository;
-
 	@Autowired
 	private FaciltyDataDistrictAndTimeperiodWiseRepository faciltyDataDistrictAndTimeperiodWiseRepository;
 	@Autowired
@@ -71,36 +70,10 @@ public class AggregationServiceImpl implements AggregationService {
 	private IndicatorUnitSubgroupRepository indicatorUnitSubgroupRepository;
 	@Autowired
 	private UnitRepository unitRepository;
-	@Autowired
-	private DashboardService dashboardService;
+
 
 	private final Logger _log = LoggerFactory.getLogger(AggregationServiceImpl.class);
 
-	@Transactional
-	public boolean startAggregationFromMonthYear(int year, int month) {
-		List<Agency> agencies = agencyRepository.findAll();
-
-		if (month == 1) {
-			month = 12;
-			year = year - 1;
-		} else {
-			month = month - 1;
-		}
-		String monthString = "";
-		if (month >= 10) {
-			monthString = month + "";
-		} else {
-			monthString = "0" + month;
-		}
-
-		for (Agency agency : agencies) {
-			aggregateDataByAgency(agency, year, month);
-			createIndex(agency, year, month);
-			agency.setLastAggregationDate(new Date());
-		}
-		return true;
-
-	}
 
 	/**
 	 * Starts aggregated for data entered in last month.This method is executed by cron job every day.and its checks for
@@ -130,12 +103,6 @@ public class AggregationServiceImpl implements AggregationService {
 				} else {
 					month = month - 1;
 				}
-				String monthString = "";
-				if (month >= 10) {
-					monthString = month + "";
-				} else {
-					monthString = "0" + month;
-				}
 
 				if (agency.getAggStartDay() == day) {
 					aggregateDataByAgency(agency, year, month);
@@ -163,7 +130,7 @@ public class AggregationServiceImpl implements AggregationService {
 					day1OfLastAggDate = new SimpleDateFormat("yyyy-MM-dd").parse(lastAggYear + "-" + (lastAggMonth < 10 ? "0" + lastAggMonth : lastAggMonth) + "-01 00:00:00");
 					day1OfCurrDate = new SimpleDateFormat("yyyy-MM-dd").parse(currentYear + "-" + (currentMonth < 10 ? "0" + currentMonth : currentMonth) + "-01 00:00:00");
 				} catch (ParseException e) {
-
+					throw new RuntimeException("Unable to parse date :",e);
 				}
 
 				DateTime sDate = new DateTime(day1OfLastAggDate.getTime());
@@ -188,12 +155,6 @@ public class AggregationServiceImpl implements AggregationService {
 					_log.debug("Last agg Month :{}" , lastAggMonth);
 					_log.debug("Last agg Year :{}" , lastAggYear);
 
-					String monthString = "";
-					if (lastAggMonth >= 10) {
-						monthString = lastAggMonth + "";
-					} else {
-						monthString = "0" + lastAggMonth;
-					}
 
 					if (agency.getAggStartDay() == day) {
 						aggregateDataByAgency(agency, lastAggYear, lastAggMonth);
@@ -278,14 +239,17 @@ public class AggregationServiceImpl implements AggregationService {
 				data.setTimePeriod(timeperiod);
 				data.setUnit(unit);
 				data.setSource(source);
+				data.setPublished(true);
 			}
 
 			data.setDenominator(denominator);
 			data.setNumerator(numerator);
+			
 			if (denominator == 0) {
 				data.setPercentage(0.00d);
 			} else {
-				data.setPercentage((new BigDecimal(numerator).divide(new BigDecimal(denominator), 2, RoundingMode.HALF_UP)).multiply(new BigDecimal(100)).doubleValue());
+				int num = numerator * 100;
+				data.setPercentage((new BigDecimal(num).divide(new BigDecimal(denominator), 1, RoundingMode.HALF_UP)).doubleValue());
 			}
 			datas.add(data);
 
@@ -327,7 +291,6 @@ public class AggregationServiceImpl implements AggregationService {
 		for (IndicatorClassification indicatorClassification : ics) {
 
 			_log.debug("----------------------------------Normalized Values-------------------------------");
-
 			List<Data> indexDataForAllDistricts = new ArrayList<>();
 
 			List<Integer> subsectorIds = new ArrayList<>();
@@ -352,78 +315,134 @@ public class AggregationServiceImpl implements AggregationService {
 				// find data time period against agency id
 
 				List<Data> dataValues = dataEntryRepository.findByIndicatorAndUnitAndSubgroupAndSourceAndTimePeriodOrderByPercentageAsc(indicator, percentageUnit, subgroup, indicator.getIndicatorRoleMapping().getRole().getRoleSourceMapping().getIc(), timeperiod);
-
-				_log.debug("indicator Names : {} \nDataValues List DistrictWise : {}", indicator.getIndicatorName(), dataValues);
-
-				_log.debug("indicator Id : {}", indicator.getIndicatorId());
-				_log.debug("unit Id : {}", percentageUnit.getUnitId());
-				_log.debug("subgroup Id : {}", subgroup.getSubgroupValueId());
-				_log.debug("source Id : {}", indicator.getIndicatorRoleMapping().getRole().getRoleSourceMapping().getIc().getIndicatorClassificationId());
-				_log.debug("timeperiod Id : {}", timeperiod.getTimeperiodId());
+				System.out.println("Source:"+indicator.getIndicatorRoleMapping().getRole().getRoleSourceMapping().getIc().getName());
+				System.out.println("Source:"+indicator.getIndicatorRoleMapping().getRole().getRoleSourceMapping().getIc().getIndicatorClassificationId());
+				_log.info("indicator Names : {} \nDataValues List DistrictWise : {}", indicator.getIndicatorName(), dataValues);
+				System.out.println("Data value size for indicator:::"+dataValues.size());
+				_log.info("indicator Id : {}", indicator.getIndicatorId());
+				_log.info("unit Id : {}", percentageUnit.getUnitId());
+				_log.info("subgroup Id : {}", subgroup.getSubgroupValueId());
+				_log.info("source Id : {}", indicator.getIndicatorRoleMapping().getRole().getRoleSourceMapping().getIc().getIndicatorClassificationId());
+				_log.info("timeperiod Id : {}", timeperiod.getTimeperiodId());
 
 				if (dataValues != null && dataValues.size() != 0) {
-					// boolean doAllAreasHaveZeroForIndicator = dataValues.stream().allMatch(e -> e.getPercentage() ==
-					// new BigDecimal("0.00"))));
-					boolean doAllAreasHaveSameValue = dataValues.stream().allMatch(e -> e.getPercentage() == (dataValues.get(0).getPercentage()));
-					boolean doAllAreasHaveZeroForIndicator = dataValues.stream().allMatch(e -> e.getPercentage() == (new Double("0.00")));
-
-					if (doAllAreasHaveZeroForIndicator) {
-						for (Data data2 : dataValues) {
-							data2.setNormalizedValue(new BigDecimal("0.00"));
-
-							if (districtWiseAllIndicatorsNormalizedDataInList.get(data2.getArea().getAreaId()) == null) {
-								List<Data> indicatorData = new ArrayList<>();
-								indicatorData.add(data2);
-								districtWiseAllIndicatorsNormalizedDataInList.put(data2.getArea().getAreaId(), indicatorData);
+					
+					boolean doAllAreasHaveSameValue = dataValues.stream().allMatch(e -> e.getPercentage().compareTo(dataValues.get(0).getPercentage())==0);
+					boolean doAllAreasHaveHundredForIndicator = dataValues.stream().allMatch(e -> e.getPercentage().compareTo(new Double("100.00"))==0);	
+					boolean allAreasHavingZero = dataValues.stream().allMatch( i -> i.getPercentage().compareTo(new Double("0.00"))==0);	
+					
+					System.out.println("doAllAreasHaveSameValue :"+doAllAreasHaveSameValue);
+					System.out.println("doAllAreasHaveHundredForIndicator :"+doAllAreasHaveHundredForIndicator);
+					System.out.println("allAreasHavingZero :"+allAreasHavingZero);
+					
+					if(indicator.isHighIsGood()) {
+						if(doAllAreasHaveHundredForIndicator) {
+							for (Data data2 : dataValues) {
+								data2.setNormalizedValue(new BigDecimal("1.00"));
+								if (districtWiseAllIndicatorsNormalizedDataInList.get(data2.getArea().getAreaId()) == null) {
+									List<Data> indicatorData = new ArrayList<>();
+									indicatorData.add(data2);
+									districtWiseAllIndicatorsNormalizedDataInList.put(data2.getArea().getAreaId(), indicatorData);
+								} else {
+									List<Data> indicatorData = districtWiseAllIndicatorsNormalizedDataInList.get(data2.getArea().getAreaId());
+									indicatorData.add(data2);
+									districtWiseAllIndicatorsNormalizedDataInList.put(data2.getArea().getAreaId(), indicatorData);
+								}
+							}
+						}else if(doAllAreasHaveSameValue) {
+							for (Data data2 : dataValues) {
+								data2.setNormalizedValue(new BigDecimal("0.00"));
+								if (districtWiseAllIndicatorsNormalizedDataInList.get(data2.getArea().getAreaId()) == null) {
+									List<Data> indicatorData = new ArrayList<>();
+									indicatorData.add(data2);
+									districtWiseAllIndicatorsNormalizedDataInList.put(data2.getArea().getAreaId(), indicatorData);
+								} else {
+									List<Data> indicatorData = districtWiseAllIndicatorsNormalizedDataInList.get(data2.getArea().getAreaId());
+									indicatorData.add(data2);
+									districtWiseAllIndicatorsNormalizedDataInList.put(data2.getArea().getAreaId(), indicatorData);
+								}
+							}
+						}else {
+							BigDecimal minimum;
+							BigDecimal maximum;
+							if (dataValues.size() == 1) {
+								minimum = new BigDecimal(df.format(dataValues.get(0).getPercentage()));
+								maximum = new BigDecimal(df.format(dataValues.get(0).getPercentage()));
 							} else {
-								List<Data> indicatorData = districtWiseAllIndicatorsNormalizedDataInList.get(data2.getArea().getAreaId());
-								indicatorData.add(data2);
-								districtWiseAllIndicatorsNormalizedDataInList.put(data2.getArea().getAreaId(), indicatorData);
+								_log.debug("DF formatted minimum :{}", df.format(dataValues.get(0).getPercentage()));
+								_log.debug("DF formatted maximum :{}", df.format(dataValues.get(dataValues.size() - 1).getPercentage()));
+
+								minimum = dataValues.size() > 0 ? new BigDecimal(df.format(dataValues.get(0).getPercentage())).setScale(2) : new BigDecimal("0.00");
+								maximum = dataValues.size() > 0 ? new BigDecimal(df.format(dataValues.get(dataValues.size() - 1).getPercentage())).setScale(2) : new BigDecimal("0.00");
+							}
+							for (Data data2 : dataValues) {
+								data2.normalizeValue(maximum, minimum, indicator.isHighIsGood());
+								if (districtWiseAllIndicatorsNormalizedDataInList.get(data2.getArea().getAreaId()) == null) {
+									List<Data> indicatorData = new ArrayList<>();
+									indicatorData.add(data2);
+									districtWiseAllIndicatorsNormalizedDataInList.put(data2.getArea().getAreaId(), indicatorData);
+								} else {
+									List<Data> indicatorData = districtWiseAllIndicatorsNormalizedDataInList.get(data2.getArea().getAreaId());
+									indicatorData.add(data2);
+									districtWiseAllIndicatorsNormalizedDataInList.put(data2.getArea().getAreaId(), indicatorData);
+								}
 							}
 						}
-					} else if (doAllAreasHaveSameValue) {
-						for (Data data2 : dataValues) {
-							data2.setNormalizedValue(new BigDecimal("1.00"));
-
-							if (districtWiseAllIndicatorsNormalizedDataInList.get(data2.getArea().getAreaId()) == null) {
-								List<Data> indicatorData = new ArrayList<>();
-								indicatorData.add(data2);
-								districtWiseAllIndicatorsNormalizedDataInList.put(data2.getArea().getAreaId(), indicatorData);
-							} else {
-								List<Data> indicatorData = districtWiseAllIndicatorsNormalizedDataInList.get(data2.getArea().getAreaId());
-								indicatorData.add(data2);
-								districtWiseAllIndicatorsNormalizedDataInList.put(data2.getArea().getAreaId(), indicatorData);
+						
+					}else {
+						if(allAreasHavingZero) {
+							for (Data data2 : dataValues) {
+								data2.setNormalizedValue(new BigDecimal("1.00"));
+								if (districtWiseAllIndicatorsNormalizedDataInList.get(data2.getArea().getAreaId()) == null) {
+									List<Data> indicatorData = new ArrayList<>();
+									indicatorData.add(data2);
+									districtWiseAllIndicatorsNormalizedDataInList.put(data2.getArea().getAreaId(), indicatorData);
+								} else {
+									List<Data> indicatorData = districtWiseAllIndicatorsNormalizedDataInList.get(data2.getArea().getAreaId());
+									indicatorData.add(data2);
+									districtWiseAllIndicatorsNormalizedDataInList.put(data2.getArea().getAreaId(), indicatorData);
+								}
 							}
-						}
-					} else {
-
-						BigDecimal minimum;
-						BigDecimal maximum;
-						if (dataValues.size() == 1) {
-							minimum = new BigDecimal(df.format(dataValues.get(0).getPercentage()));
-							maximum = new BigDecimal(df.format(dataValues.get(0).getPercentage()));
-						} else {
-							_log.debug("DF formatted minimum :{}", df.format(dataValues.get(0).getPercentage()));
-							_log.debug("DF formatted maximum :{}", df.format(dataValues.get(dataValues.size() - 1).getPercentage()));
-
-							minimum = dataValues.size() > 0 ? new BigDecimal(df.format(dataValues.get(0).getPercentage())).setScale(2) : new BigDecimal("0.00");
-							maximum = dataValues.size() > 0 ? new BigDecimal(df.format(dataValues.get(dataValues.size() - 1).getPercentage())).setScale(2) : new BigDecimal("0.00");
-						}
-						for (Data data2 : dataValues) {
-							data2.normalizeValue(maximum, minimum, indicator.isHighIsGood());
-
-							if (districtWiseAllIndicatorsNormalizedDataInList.get(data2.getArea().getAreaId()) == null) {
-								List<Data> indicatorData = new ArrayList<>();
-								indicatorData.add(data2);
-								districtWiseAllIndicatorsNormalizedDataInList.put(data2.getArea().getAreaId(), indicatorData);
+						}else if(doAllAreasHaveSameValue) {
+							for (Data data2 : dataValues) {
+								data2.setNormalizedValue(new BigDecimal("0.00"));
+								if (districtWiseAllIndicatorsNormalizedDataInList.get(data2.getArea().getAreaId()) == null) {
+									List<Data> indicatorData = new ArrayList<>();
+									indicatorData.add(data2);
+									districtWiseAllIndicatorsNormalizedDataInList.put(data2.getArea().getAreaId(), indicatorData);
+								} else {
+									List<Data> indicatorData = districtWiseAllIndicatorsNormalizedDataInList.get(data2.getArea().getAreaId());
+									indicatorData.add(data2);
+									districtWiseAllIndicatorsNormalizedDataInList.put(data2.getArea().getAreaId(), indicatorData);
+								}
+							}
+						}else {
+							BigDecimal minimum;
+							BigDecimal maximum;
+							if (dataValues.size() == 1) {
+								minimum = new BigDecimal(df.format(dataValues.get(0).getPercentage()));
+								maximum = new BigDecimal(df.format(dataValues.get(0).getPercentage()));
 							} else {
-								List<Data> indicatorData = districtWiseAllIndicatorsNormalizedDataInList.get(data2.getArea().getAreaId());
-								indicatorData.add(data2);
-								districtWiseAllIndicatorsNormalizedDataInList.put(data2.getArea().getAreaId(), indicatorData);
+								_log.debug("DF formatted minimum :{}", df.format(dataValues.get(0).getPercentage()));
+								_log.debug("DF formatted maximum :{}", df.format(dataValues.get(dataValues.size() - 1).getPercentage()));
+
+								minimum = dataValues.size() > 0 ? new BigDecimal(df.format(dataValues.get(0).getPercentage())).setScale(2) : new BigDecimal("0.00");
+								maximum = dataValues.size() > 0 ? new BigDecimal(df.format(dataValues.get(dataValues.size() - 1).getPercentage())).setScale(2) : new BigDecimal("0.00");
+							}
+							for (Data data2 : dataValues) {
+								data2.normalizeValue(maximum, minimum, indicator.isHighIsGood());
+								if (districtWiseAllIndicatorsNormalizedDataInList.get(data2.getArea().getAreaId()) == null) {
+									List<Data> indicatorData = new ArrayList<>();
+									indicatorData.add(data2);
+									districtWiseAllIndicatorsNormalizedDataInList.put(data2.getArea().getAreaId(), indicatorData);
+								} else {
+									List<Data> indicatorData = districtWiseAllIndicatorsNormalizedDataInList.get(data2.getArea().getAreaId());
+									indicatorData.add(data2);
+									districtWiseAllIndicatorsNormalizedDataInList.put(data2.getArea().getAreaId(), indicatorData);
+								}
 							}
 						}
 					}
-
 				}
 			}
 
@@ -458,7 +477,7 @@ public class AggregationServiceImpl implements AggregationService {
 				Data avgIndexOfDistrict = dataEntryRepository.findByIndicatorUnitSubgroupAndSourceAndTimePeriodAndArea(ius, sourceForComputedIndex, tp, area);
 
 				if (avgIndexOfDistrict == null) {
-					avgIndexOfDistrict = new Data();
+					avgIndexOfDistrict  = new Data();
 					avgIndexOfDistrict.setArea(area);
 					avgIndexOfDistrict.setDenominator(0);
 					avgIndexOfDistrict.setNumerator(0);
@@ -468,6 +487,7 @@ public class AggregationServiceImpl implements AggregationService {
 					avgIndexOfDistrict.setUnit(indexUnit);
 					avgIndexOfDistrict.setIndicator(i);
 					avgIndexOfDistrict.setIndicatorUnitSubgroup(ius);
+					avgIndexOfDistrict.setPublished(true);
 
 				}
 
@@ -476,7 +496,7 @@ public class AggregationServiceImpl implements AggregationService {
 				indexDataForAllDistricts.add(avgIndexOfDistrict);
 
 			});
-
+			
 			indexAgainstSector.put(indicatorClassification.getIndicatorClassificationId(), indexDataForAllDistricts);
 
 		}
@@ -555,6 +575,7 @@ public class AggregationServiceImpl implements AggregationService {
 				overallIndexOfDistrict.setSubgroup(subgroup);
 				overallIndexOfDistrict.setIndicator(overallIndicator);
 				overallIndexOfDistrict.setIndicatorUnitSubgroup(ius);
+				overallIndexOfDistrict.setPublished(true);
 			}
 			overallIndexOfDistrict.setPercentage(Double.valueOf(df.format(avg)));
 
@@ -565,44 +586,6 @@ public class AggregationServiceImpl implements AggregationService {
 		return true;
 	}
 
-	@Override
-	@Transactional
-	public boolean startPublishingForCurrentMonth() {
-
-		List<Agency> agencies = agencyRepository.findAll();
-
-		for (Agency agency : agencies) {
-
-			int day = 0;
-			int year = 0;
-			int month = 0;
-
-			LocalDateTime now = LocalDateTime.now();
-			day = now.getDayOfMonth();
-			year = now.getYear();
-			month = now.getMonthValue();
-
-			if (month == 1) {
-				month = 12;
-				year = year - 1;
-			} else {
-				month = month - 1;
-			}
-			String monthString = "";
-			if (month >= 10) {
-				monthString = month + "";
-			} else {
-				monthString = "0" + month;
-			}
-
-			// auto publish
-			if (agency.getAutoPublishOnDay() == day) {
-				dashboardService.publishData(agency.getAgencyId(), year, month, monthString);
-			}
-
-		}
-
-		return true;
-	}
+	
 
 }

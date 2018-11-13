@@ -6,7 +6,7 @@
 
 <html lang="en">
 <jsp:include page="fragments/headTag.jsp" />
-<jsp:include page="fragments/bodyHeaderlogin.jsp" />
+<jsp:include page="fragments/bodyHeader.jsp" />
 <style>
 #pdfDownloadBtnForIndex {
 	left: auto;

@@ -1,5 +1,5 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<div class="container-fluid footer" style="background-color: #66bc29;position:fixed;width:100%;bottom:0; z-index: 500;">
+<div class="container-fluid footer footer-bottom">
 	<div class="copyright-wrapper">
 		<div class="row">
 			<div class="col-md-12">
@@ -96,7 +96,12 @@ $("#main-menu > li:not(.open)").click(function(){
 <script src="resources/js/blueimp.gallery.min.js"></script>
 <script src="resources/js/bootstrapimage.gallery.js"></script>
 
+ <script type="text/javascript" src="resources/js/jquery.smartmenus.js"></script>
 
+    <!-- SmartMenus jQuery Bootstrap Addon -->
+    <script type="text/javascript" src="resources/js/jquery.smartmenus.bootstrap.js"></script>
+<!--     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
 $(function() {

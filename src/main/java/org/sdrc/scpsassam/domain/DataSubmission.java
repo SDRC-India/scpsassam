@@ -52,8 +52,6 @@ public class DataSubmission {
 	@Column(name="data_entered_for_year",updatable=false)
 	private int dataEnteredForYear;
 
-	@Column(name="data_published",columnDefinition="boolean default 'false'")
-	private Boolean dataPublished;
 	
 	@Column(name="no_of_time_data_edited",columnDefinition="int default '0'")
 	private Integer noOfTimeDataEdited;
@@ -144,15 +142,6 @@ public class DataSubmission {
 
 
 
-	public Boolean getDataPublished() {
-		return dataPublished;
-	}
-
-
-
-	public void setDataPublished(Boolean dataPublished) {
-		this.dataPublished = dataPublished;
-	}
 
 
 

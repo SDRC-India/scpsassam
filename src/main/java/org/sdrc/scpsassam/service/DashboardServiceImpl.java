@@ -1076,9 +1076,9 @@ public class DashboardServiceImpl implements DashboardService {
 
 			Document document = new Document(PageSize.A4.rotate());
 
-			// String outputPath = applicationMessageSource.getMessage("outputPathPdfLineChart", null, null) +
-			// "LineChart.pdf";
-			String outputPath = File.createTempFile("LineChart", ".pdf").toString();// "LineChart.pdf";
+			 String outputPath = applicationMessageSource.getMessage("outputPathPdfLineChart", null, null) +
+			 "LineChart.pdf";
+//			String outputPath = File.createTempFile("LineChart", ".pdf").toString();// "LineChart.pdf";
 
 			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(outputPath));
 			// setting Header Footer.PLS Refer to
@@ -1321,27 +1321,5 @@ public class DashboardServiceImpl implements DashboardService {
 
 	}
 
-	@Override
-	public boolean displayPublishButton() {
-
-		UserModel userModel = (UserModel) stateManager.getValue(Constants.Web.USER_PRINCIPAL);
-		if (userModel != null) {
-			Agency agency = agencyRepository.findByAgencyId(1);
-
-			LocalDateTime now = LocalDateTime.now();
-			int day = now.getDayOfMonth();
-			int year = now.getYear();
-			int month = now.getMonthValue();
-			if (month == 1) {
-				month = 12;
-				year = year - 1;
-			} else {
-				month = month - 1;
-			}
-
-			PublishHistory history = publishHistoryRepository.findByDataBeingPublishedForMonthAndDataBeingPublishedForYear(month, year);
-			return history == null && day > agency.getLastDayForDataEntry();
-		}
-		return false;
-	}
+	
 }

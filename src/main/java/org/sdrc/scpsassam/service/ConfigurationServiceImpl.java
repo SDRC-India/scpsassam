@@ -3,6 +3,10 @@ package org.sdrc.scpsassam.service;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Month;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -25,6 +29,7 @@ import org.sdrc.scpsassam.domain.FacilityUserMapping;
 import org.sdrc.scpsassam.domain.Indicator;
 import org.sdrc.scpsassam.domain.IndicatorClassification;
 import org.sdrc.scpsassam.domain.IndicatorClassificationIndicatorUnitSubgroupMapping;
+import org.sdrc.scpsassam.domain.IndicatorRoleMapping;
 import org.sdrc.scpsassam.domain.IndicatorUnitSubgroup;
 import org.sdrc.scpsassam.domain.Role;
 import org.sdrc.scpsassam.domain.RoleFeaturePermissionScheme;
@@ -42,6 +47,7 @@ import org.sdrc.scpsassam.repository.FacilityUserMappingRepository;
 import org.sdrc.scpsassam.repository.IndicatorClassificationRepository;
 import org.sdrc.scpsassam.repository.IndicatorClassification_Ius_Mapping_Repository;
 import org.sdrc.scpsassam.repository.IndicatorRepository;
+import org.sdrc.scpsassam.repository.IndicatorRoleMappingRepository;
 import org.sdrc.scpsassam.repository.IndicatorUnitSubgroupRepository;
 import org.sdrc.scpsassam.repository.RoleFeaturePermissionRepository;
 import org.sdrc.scpsassam.repository.RoleRepository;
@@ -109,6 +115,9 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 	@Autowired
 	private UserRoleFeaturePermissionMappingRepository userRoleFeaturePermissionMappingRepository;
 
+	@Autowired
+	private IndicatorRoleMappingRepository indicatorRoleMappingRepository;
+	
 	@Override
 	@Transactional
 	public boolean configureIUSTable() {
@@ -477,14 +486,14 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 	@Transactional
 	public boolean readAndInsertDataFromExcelFileForAgency() throws InvalidFormatException, IOException {
 
-		File file = new File("E:\\scpsassam\\Assam_SCPS_Excel_Template.xlsx");
+		File file = new File("E:\\PRODUCTIONS\\new ASSAM data on 12_01_2018\\assam data.xlsx");
 
 		XSSFWorkbook workbook = new XSSFWorkbook(new FileInputStream(file));
 
 		XSSFSheet sheet = workbook.getSheetAt(0);
 		int agencyId = 1;
 
-		for (int row = 0; row < sheet.getLastRowNum(); row++) {
+		for (int row = 0; row <= sheet.getLastRowNum(); row++) {
 			XSSFRow xssfRow = sheet.getRow(row);
 			System.out.println("Row :" + row);
 			// Starting cells
@@ -509,14 +518,51 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 				cell = cellIterator.next();
 				switch (cols) {
 				case 0:
-					timePeriod = timePeriodRepository.findByTimePeriod(String.valueOf(cell.getNumericCellValue()));
-					if (timePeriod == null) {
-						timePeriod = new Timeperiod();
-						timePeriod.setPeriodicity("1");
-						timePeriod.setStartDate(null);
-						timePeriod.setEndDate(null);
-						timePeriod.setTimePeriod(String.valueOf(cell.getNumericCellValue()));
-						timePeriod = timePeriodRepository.save(timePeriod);
+					if (cell.getStringCellValue() == null || cell.getStringCellValue().isEmpty()) {
+						return true;
+					}
+					timePeriod = timePeriodRepository.findByTimePeriod(cell.getStringCellValue().trim());
+					try {
+						if (timePeriod == null) {
+						
+							int month = Integer.parseInt(cell.getStringCellValue().split("\\.")[1]);
+							int year = Integer.parseInt(cell.getStringCellValue().split("\\.")[0]);
+							String monthString = "";
+							if (month >= 10) {
+								monthString = month + "";
+							} else {
+								monthString = "0" + month;
+							}
+							Year y = Year.of(year);
+							Month m = Month.of(month);
+
+							String dayString = "";
+							if (m.length(y.isLeap()) < 10) {
+								dayString = "0" + m.length(y.isLeap());
+							} else {
+								dayString = m.length(y.isLeap()) + "";
+							}
+
+							timePeriod = new Timeperiod();
+							timePeriod.setPeriodicity("1");
+							try {
+								timePeriod.setStartDate(new SimpleDateFormat("yyyy-MM-dd").parse(year + "-" + monthString + "-01"));
+							} catch (ParseException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							try {
+								timePeriod.setEndDate(new SimpleDateFormat("yyyy-MM-dd").parse(year + "-" + monthString + "-" + dayString));
+							} catch (ParseException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							timePeriod.setTimePeriod(cell.getStringCellValue());
+							timePeriod = timePeriodRepository.save(timePeriod);
+						}
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 					break;
 				case 1:
@@ -537,24 +583,22 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 					}
 					indicator = indicatorRepository.findByIndicatorNameAndAgencyAgencyId(cell.getStringCellValue(), agencyId);
 					if (indicator == null) {
-//						indicator = new Indicator();
-//						indicator.setAgency(new Agency(agencyId));
-//						indicator.setDisplayToDeoFromMonth(4);
-//						indicator.setDisplayToDeoFromYear(2017);
-//						indicator.setHighIsGood(true);
-//						indicator.setIndicatorClassification(icSubSector);
-//						indicator.setIndicatorMetadata(null);
-//						indicator.setIndicatorName(cell.getStringCellValue());
-//						indicator.setIndicatorType(IndicatorType.ACTUAL_INDICATOR);
-//						indicator.setPublishMonth(3);
-//						indicator.setPublishYear(2017);
-//
-//						indicator = indicatorRepository.save(indicator);
-
 						System.out.println("Indicator Name :" + cell.getStringCellValue());
 						System.out.println("Row : :" + row);
 
-						 throw new IllegalArgumentException(cell.getStringCellValue());
+						 indicator = new Indicator();
+						 indicator.setAgency(new Agency(agencyId));
+					//	 indicator.setDisplayToDeoFromMonth(4);
+					//	 indicator.setDisplayToDeoFromYear(2017);
+						 indicator.setHighIsGood(true);
+						 indicator.setIndicatorClassification(icSubSector);
+						 indicator.setIndicatorMetadata(null);
+						 indicator.setIndicatorName(cell.getStringCellValue());
+						// indicator.setIndicatorType(IndicatorType.ACTUAL_INDICATOR);
+					//	 indicator.setPublishMonth(3);
+					//	 indicator.setPublishYear(2017);
+						
+						 indicator = indicatorRepository.save(indicator);
 					}
 					break;
 				case 6:
@@ -569,8 +613,17 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 					subgroup = subgroupRepository.findBySubgroupVal(cell.getStringCellValue().trim());
 					break;
 				case 9:
-					source = indicatorClassificationRepository.findByNameAndParentIsNotNull(cell.getStringCellValue().trim());
-
+//					if(cell.getStringCellValue().equals("District Child Protection Unit")) {
+//						source = indicatorClassificationRepository.findByNameAndParentIsNotNull("DCPU");
+//
+//					}else if(cell.getStringCellValue().equals("Observation Home")) {
+//						source = indicatorClassificationRepository.findByNameAndParentIsNotNull("OH");
+//
+//					}else if(cell.getStringCellValue().equals("State Child Protection Society")) {
+//						source = indicatorClassificationRepository.findByNameAndParentIsNotNull("SCPS");
+//
+//					}
+					source = indicatorClassificationRepository.findByNameAndParentIsNotNull(cell.getStringCellValue());
 					break;
 				}
 
@@ -591,7 +644,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 			System.out.println("Sector ::" + icSector.getName());
 			System.out.println("SubSector ::" + icSubSector.getName());
 			System.out.println("Source ::" + source.getName());
-			System.out.println("Action Unit Retrived from excel :" + cell.getStringCellValue());
+			
 			System.out.println("Unit ::" + unit.getUnitName());
 			if (indicatorUnitSubgroupRepository.findByIndicatorAndUnitAndSubgroup(indicator, unit, subgroup) == null)
 				ius = indicatorUnitSubgroupRepository.save(ius);
@@ -607,6 +660,19 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 			else
 				icius = indicatorClassification_Ius_Mapping_Repository.findByIndicatorClassificationAndIndicatorUnitSubgroup(icSubSector, ius);
 
+			
+			
+			
+			Role role = roleRepository.findByRoleCode(source.getName());
+			
+			IndicatorRoleMapping irm = indicatorRoleMappingRepository.findByRoleAndIndicator(role,indicator);
+			if(irm==null) {
+				 irm = new IndicatorRoleMapping();
+				irm.setIndicator(indicator);
+				irm.setRole(role);
+				indicatorRoleMappingRepository.save(irm);
+			}
+			
 			Data data = new Data();
 
 			Area area = areaRepository.findByAreaCode(areaCode);
@@ -624,7 +690,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 			data.setUnit(unit);
 
 			dataEntryRepository.save(data);
-
+			System.out.println("Row completed :::"+row);
 		}
 		return true;
 	}
@@ -782,7 +848,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 				user.setIsActive(true);
 
 				user.setName(role.getRoleName().concat("_").concat(district.getAreaName().toUpperCase()));
-				user.setUserName(role.getRoleName().toLowerCase().concat("_").concat(district.getAreaName().toLowerCase()));
+				user.setUserName(role.getRoleName().toLowerCase().concat("_").concat(district.getAreaName().replaceAll(" ", "_").toLowerCase()));
 				user.setPassword(user.generatedEncodedPassword(user.getUserName(), user.getUserName().concat("_").concat(role.getRoleId() + "")));
 				user.setRole(role);
 				user.setOtp(null);

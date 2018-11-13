@@ -31,12 +31,14 @@ public class Agency {
 
 	@Column(name = "agency_name")
 	private String agencyName;
+	
+//	@Column(name = "start_day_for_data_entry",columnDefinition="integer default '27'")
+//	private Integer startDayForDataEntry;
+//
+//	@Column(name = "last_day_for_data_entry")
+//	private int lastDayForDataEntry;
 
-	@Column(name = "last_day_for_data_entry")
-	private int lastDayForDataEntry;
 
-	@Column(name = "last_day_for_data_edit")
-	private int lastDayForDataEdit;
 
 	@Column(name = "agg_start_day")
 	private int aggStartDay;
@@ -101,21 +103,21 @@ public class Agency {
 		this.agencyName = agencyName;
 	}
 
-	public int getLastDayForDataEntry() {
-		return lastDayForDataEntry;
-	}
+//	public int getLastDayForDataEntry() {
+//		return lastDayForDataEntry;
+//	}
+//
+//	public void setLastDayForDataEntry(int lastDayForDataEntry) {
+//		this.lastDayForDataEntry = lastDayForDataEntry;
+//	}
 
-	public void setLastDayForDataEntry(int lastDayForDataEntry) {
-		this.lastDayForDataEntry = lastDayForDataEntry;
-	}
-
-	public int getLastDayForDataEdit() {
-		return lastDayForDataEdit;
-	}
-
-	public void setLastDayForDataEdit(int lastDayForDataEdit) {
-		this.lastDayForDataEdit = lastDayForDataEdit;
-	}
+//	public int getLastDayForDataEdit() {
+//		return lastDayForDataEdit;
+//	}
+//
+//	public void setLastDayForDataEdit(int lastDayForDataEdit) {
+//		this.lastDayForDataEdit = lastDayForDataEdit;
+//	}
 
 	public int getNoOfMonth() {
 		return noOfMonth;
@@ -217,6 +219,14 @@ public class Agency {
 	public void setPdfFooterFileName(String pdfFooterFileName) {
 		this.pdfFooterFileName = pdfFooterFileName;
 	}
+
+//	public Integer getStartDayForDataEntry() {
+//		return startDayForDataEntry;
+//	}
+//
+//	public void setStartDayForDataEntry(Integer startDayForDataEntry) {
+//		this.startDayForDataEntry = startDayForDataEntry;
+//	}
 
 	
 	

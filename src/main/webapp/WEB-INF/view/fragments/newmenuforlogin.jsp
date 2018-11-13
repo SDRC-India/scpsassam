@@ -1,5 +1,5 @@
 <%@ page import="org.sdrc.scpsassam.util.Constants"%>
-<%@ page import="org.sdrc.scpsassam.model.*"%>
+<%@ page import="org.sdrc.scpsassam.model.UserModel"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <!--logo part end-->
@@ -39,13 +39,16 @@ if(request.getSession().getAttribute(Constants.Web.USER_PRINCIPAL) != null){
             <!-- Left nav -->
             <ul class="nav navbar-nav" id="main-menu">
              <%if (user != null) {%><li><a>Welcome<b> <%=user.getUsername()%></b></a></li><%}%>
-              <li class="home-link"><a href = "https://scpsassam.org/">Home</a></li>
+              <li class="home-link"><a href="https://scpsassam.org/" >Home</a></li>
 <!--                           <li><a  href="submissionManagement">Submission Management</a></li> -->
 <!--                           <li><a  href="indicatorManagement">Indicator Management</a></li> -->
 <!--                           <li><a  href="#">Logout</a></li> -->
 
 				
 				<%if (user == null) {%><li class="loginbtn"><a href="login">Login</a></li><%}%>
+				
+<%-- 				<%if (user == null) {%>  <li class="nav"><a class="scroll" href="dashboard" >Dashboard</a></li><%}%> --%>
+<%--                 <%if (user == null) {%><li class="nav"><a class="scroll" href="index" id="index">Index</a></li><%}%> --%>
 				<%if (user != null && user.getRoleId() != 3) {%><li><a href="dataEntry">Data Entry</a></li><%}%>
 				<%if (user != null && user.getRoleId() != 3) {%><li><a href="submissionManagement">Submission Management</a></li><%}%>
 				<%if (user != null && user.getRoleId() == 3) {%><li><a href="indicatorManagement">Indicator Management</a></li><%}%>
@@ -104,13 +107,14 @@ if(request.getSession().getAttribute(Constants.Web.USER_PRINCIPAL) != null){
     <!-- SmartMenus jQuery Bootstrap Addon -->
 <!--     <script type="text/javascript" src="resources/js/jquery.smartmenus.bootstrap.js"></script> -->
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<!--     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
 
     <!-- SmartMenus jQuery plugin -->
 <script type="text/javascript">
-// $(document).ready(function(){
-//     $(".home-link").click(function(){
-//     	$("#confirmSaveModal").modal("show");
-//     });
-// });
+// $(document).ready(function()
+// 		 {
+// 		  $("ul#main-menu").on("click","li", function(){
+// 			  $("#confirmSaveModal").modal("show");
+// 		  });
+// 		});
   </script>

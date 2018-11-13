@@ -82,6 +82,8 @@ public class Data {
 
 	@Transient
 	private BigDecimal normalizedValue;
+	
+
 
 	public Integer getDataId() {
 		return dataId;
@@ -212,7 +214,8 @@ public class Data {
 	public String toString() {
 		return "Data [dataId=" + dataId + ", indicator=" + indicator + ", timePeriod=" + timePeriod + ", source=" + source + ", area=" + area + ", percentage=" + percentage + ", numerator=" + numerator + ", denominator=" + denominator + ", published=" + published + ", normalizedValue=" + normalizedValue + "]";
 	}
-	
+
+
 	
 
 }

@@ -33,5 +33,15 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="E:/workspace/scpsassam/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="E:/workspace/scpsassam/lib/cos-05Nov2002.jar"/>
+	<classpathentry kind="lib" path="E:/workspace/scpsassam/lib/eventbus-1.4.jar"/>
+	<classpathentry kind="lib" path="E:/workspace/scpsassam/lib/httpclient-4.1.2.jar"/>
+	<classpathentry kind="lib" path="E:/workspace/scpsassam/lib/httpcore-4.1.2.jar"/>
+	<classpathentry kind="lib" path="E:/workspace/scpsassam/lib/httpmime-4.1.2.jar"/>
+	<classpathentry kind="lib" path="E:/workspace/scpsassam/lib/javarosa-libraries-2015-08-05.jar"/>
+	<classpathentry kind="lib" path="E:/workspace/scpsassam/lib/kxml2-2.3.0.jar"/>
+	<classpathentry kind="lib" path="E:/workspace/scpsassam/lib/mime-util-2.1.3.jar"/>
+	<classpathentry kind="lib" path="E:/workspace/scpsassam/lib/ODK Briefcase v1.4.6 Production.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

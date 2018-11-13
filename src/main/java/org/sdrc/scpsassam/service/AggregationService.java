@@ -11,7 +11,4 @@ public interface AggregationService {
 
 	public boolean aggregateDataByAgency(Agency agency, int year, int month);
 
-	public boolean startAggregationFromMonthYear(int year, int month);
-
-	boolean startPublishingForCurrentMonth();
 }

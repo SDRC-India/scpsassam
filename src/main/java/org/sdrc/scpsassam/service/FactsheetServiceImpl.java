@@ -88,14 +88,9 @@ public class FactsheetServiceImpl implements FactsheetService {
 		// always have to send AT 0 index.
 		utAreaEnList.add(0, state);
 
-		UserModel userModel = (UserModel) stateManager.getValue(Constants.Web.USER_PRINCIPAL);
-		if (userModel == null || userModel.getRoleId() != 8) {
-			// public view of time period
-			utTpList = timePeriodRepository.findTimePeriodsPresentForDataOfMyAgencyOnlyPublished(agency.getAgencyId());
-		} else if (userModel.getRoleId() == 8) {
-			// fetch all time period for commissioner
-			utTpList = timePeriodRepository.findTimePeriodsPresentForDataOfMyAgencyAllPublishedAndUnPublished(agency.getAgencyId());
-		}
+		
+		utTpList = timePeriodRepository.findTimePeriodsPresentForDataOfMyAgencyAllPublishedAndUnPublished(agency.getAgencyId());
+		
 		// return only time periods that have data.//since our time period table is
 		// common we can have time periods of multiple agencies
 
@@ -224,6 +219,7 @@ public class FactsheetServiceImpl implements FactsheetService {
 		}
 
 		int indexId = Integer.parseInt(applicationMessageSource.getMessage("indexId", null, null));
+	
 		dataList = utDataRepository.findByArea(areaIdList, timePeriod, indexId);
 		inDataList = utDataRepository.findInByArea(areaIdList, timePeriod, parentSectorId);
 

@@ -6,9 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -19,16 +17,12 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.sdrc.core.Authorize;
 import org.sdrc.scpsassam.domain.Agency;
 import org.sdrc.scpsassam.model.DataCollectionModel;
 import org.sdrc.scpsassam.model.LineSeries;
-import org.sdrc.scpsassam.model.UserModel;
 import org.sdrc.scpsassam.model.ValueObject;
 import org.sdrc.scpsassam.repository.AgencyRepository;
 import org.sdrc.scpsassam.service.DashboardService;
-import org.sdrc.scpsassam.util.Constants;
-import org.sdrc.scpsassam.util.CookieHandler;
 import org.sdrc.scpsassam.util.StateManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,8 +48,7 @@ public class DashboardController {
 	@Autowired
 	private AgencyRepository agencyRepository;
 
-	@Autowired
-	private StateManager stateManager;
+
 
 	@Autowired
 	public DashboardController(DashboardService dashboardService) {
@@ -139,7 +132,7 @@ public class DashboardController {
 		InputStream inputStream;
 		String fileName = "";
 		try {
-			fileName = name.replaceAll("%3A", ":").replaceAll("%2F", "/").replaceAll("%5C", "/").replaceAll("%2C", ",").replaceAll("\\+", " ").replaceAll("%22", "").replaceAll("%3F", "?").replaceAll("%3D", "=");
+			fileName = name.replaceAll("%3A", ":").replaceAll("%2F", "/").replaceAll("%5C", "/").replaceAll("%2C", ",").replaceAll("\\+", " ").replaceAll("%22", "").replaceAll("%3F", "?").replaceAll("%3D", "=").replaceAll("%20", " ");
 			inputStream = new FileInputStream(fileName);
 			String headerKey = "Content-Disposition";
 			String headerValue = String.format("attachment; filename=\"%s\"", new java.io.File(fileName).getName());
@@ -158,26 +151,7 @@ public class DashboardController {
 		}
 	}
 
-	@Authorize(feature = "dashboard", permission = "edit")
-	@RequestMapping("/api/publishData")
-	@ResponseBody
-	public Map<String, String> publishData() {
-		Map<String, String> status = new HashMap<>();
-		try {
-			if (dashboardService.publishData()) {
-				status.put("status", "200");
-				status.put("message", "Data published successfully !");
-			} else {
-				status.put("status", "0");
-				status.put("message", "Failed to published data !");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			status.put("status", "0");
-			status.put("message", "Failed to published data !");
-		}
-		return status;
-	}
+	
 
 	@RequestMapping("/index")
 	public ModelAndView getIndexPage(@RequestParam(required = false) String agencyId, HttpServletResponse res, HttpServletRequest re) {
@@ -190,14 +164,6 @@ public class DashboardController {
 
 		ModelAndView view = new ModelAndView("dashboard");
 		view.addObject("showPublish", false);
-		UserModel userModel = ((UserModel) stateManager.getValue(Constants.Web.USER_PRINCIPAL));
-		if (userModel == null) {
-			view.addObject("showPublish", false);
-		} else {
-			boolean isPublished = dashboardService.displayPublishButton();
-			view.addObject("showPublish", isPublished);
-		}
-
 		return view;
 	}
 

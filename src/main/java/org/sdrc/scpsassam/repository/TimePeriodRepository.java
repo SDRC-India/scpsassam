@@ -21,7 +21,6 @@ public interface TimePeriodRepository {
 
 	public List<Timeperiod> findTimePeriodsPresentForDataOfMyAgencyAllPublishedAndUnPublished(int agencyId);
 	
-	public List<Timeperiod> findTimePeriodsPresentForDataOfMyAgencyOnlyPublished(int agencyId);
 	
 
 }

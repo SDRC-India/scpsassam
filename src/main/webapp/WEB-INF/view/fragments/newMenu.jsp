@@ -90,9 +90,9 @@
               
               <li><a href="#">Dashboard<span class="caret"></span></a>
               <ul class="dropdown-menu" style="display: none; width: auto;">
-                          <li><a href="http://dashboard.scpsassam.org/index">Index</a></li>
+                          <li><a href="index">Index</a></li>
                           
-                          <li><a  href="http://dashboard.scpsassam.org/indicator">Indicator</a></li>
+                          <li><a  href="dashboard">Indicator</a></li>
                           </ul>
               </li>
               
@@ -184,12 +184,7 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/javascript" src="resources/js/jquery.smartmenus.js"></script>
-
-    <!-- SmartMenus jQuery Bootstrap Addon -->
-    <script type="text/javascript" src="resources/js/jquery.smartmenus.bootstrap.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+   
 
     <!-- SmartMenus jQuery plugin -->
   

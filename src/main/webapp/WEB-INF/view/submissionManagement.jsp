@@ -20,53 +20,51 @@
 <link rel="stylesheet" href="resources/css/customLoader.css">
 <link rel="stylesheet" href="resources/css/style.css">
 <link rel="stylesheet" href="resources/css/stylelogin.css">
+<link rel="stylesheet" href="resources/css/jquery-ui.css">
 <!--[if lte IE 12]>
   <link rel="stylesheet" type="text/css" media="screen, projection" href="resources/css/ie12-down.css" />
 <![endif]-->
 
 <spring:url value="/webjars/jquery/2.0.3/jquery.min.js" var="jQuery" />
 <script src="${jQuery}"></script>
-<spring:url value="/webjars/bootstrap/3.1.1/js/bootstrap.min.js"
-	var="bootstrapjs" />
-<script src="${bootstrapjs}"></script>
+<%-- <spring:url value="/webjars/bootstrap/3.1.1/js/bootstrap.min.js" --%>
+<%-- 	var="bootstrapjs" /> --%>
+<%-- <script src="${bootstrapjs}"></script> --%>
 <spring:url value="/webjars/angularjs/1.5.5/angular.min.js"
 	var="angularmin" />
 <script src="${angularmin}" type="text/javascript"></script>
+<script src="resources/js/html5shiv.js" type="text/javascript"></script>
+
 
 </head>
-<jsp:include page="fragments/bodyHeaderlogin.jsp" />
-<body ng-controller="submissionManagementController"
-	class="xoverflowHidden" ng-cloak>
-	
-	<style type="text/css">
+<style type="text/css">
 section.bottomfooter {
 	position: fixed;
 }
- .footer_width 
+ .footer-bottom  
  { 
-  position: fixed; 
-  bottom: 0; */
+  position: fixed !important; 
+  bottom: 0;
   width: 100%; 
  } 
 </style>
+<jsp:include page="fragments/bodyHeaderlogin.jsp" />
+<body ng-controller="submissionManagementController"
+	class="xoverflowHidden" ng-cloak>
 	<div id="mymain" class="container-fluid">
-	<div class="col-md-12">
+		<div class="col-md-12">
 			<div class="col-md-5 facilityDetails submissionfacilityDetails">
-<!-- 				<ul class="infodetails"> -->
-<!-- 					<li><h4>Location: {{locationDetails}}</h4></li> -->
-<!-- 					<li><h4>User Type: {{userTypeDetails}}</h4></li> -->
-<!-- 					<li><h4>User Name: {{usernameDetails}}</h4></li> -->
-<!-- 				</ul> -->
 			</div>
 
 			<div class="col-md-7">
-				<h3 class="pageNameContainer submissionPageInfo">{{pageName}}</h3>
+				<h3 class="submissionPageInfo">{{pageName}}</h3>
 			</div>
 		</div>
 		<div class="col-md-12" id="record_found" ng-show="showIfData">
 			<div class="container-fluid">
 				<div class="col-md-12">
-					<section class="profile-section col-md-12 col-sm-12 col-xs-12 submissionMgmtTable">
+					<section
+						class="profile-section col-md-12 col-sm-12 col-xs-12 submissionMgmtTable">
 						<div class="profile-entry">
 							<div id="profileTable" class="accordion-content expanded">
 								<div class='content'>
@@ -81,25 +79,29 @@ section.bottomfooter {
 													<th class="submissionmgmt-date">Submission Month</th>
 													<th class="submissionmgmt-action-history">Action
 														History</th>
-														<th class="submissionmgmt-lastmodified">Last Modified</th>
+													<th class="submissionmgmt-lastmodified">Last Modified</th>
 													<th class="submissionmgmt-action-preview-edit">Action</th>
 												</tr>
 											</thead>
 											<tbody>
 												<tr ng-repeat="td in submissiontableData">
-												
+
 													<td>{{$index+1}}</td>
 
 													<td class="submissionmgmt-date-td">{{td.dataSubmittedFor}}</td>
 
-													<td class="submissionmgmt-action-history-td">{{td.actionTakenType}}	</td>
-													
-													<td class="submissionmgmt-last-modified-td">{{td.lastModified}}	</td>
+													<td class="submissionmgmt-action-history-td">{{td.actionTakenType}}
+													</td>
+
+													<td class="submissionmgmt-last-modified-td">{{td.lastModified}}
+													</td>
 
 													<td class="inputBox submissionmgmt-action-preview-edit-td">
-														<button class="submitSCPS btnMarginzero" ng-show="td.availableViewType == 'preview'"
+														<button class="submitSCPS btnMarginzero"
+															ng-show="td.availableViewType == 'preview'"
 															ng-click="preView($index)">Preview</button>
-														<button class="submitSCPS btnMarginzero" ng-show="td.availableViewType == 'edit'"
+														<button class="submitSCPS btnMarginzero"
+															ng-show="td.availableViewType == 'edit'"
 															ng-click="edit()">Edit</button>
 													</td>
 												</tr>
@@ -113,14 +115,15 @@ section.bottomfooter {
 				</div>
 			</div>
 		</div>
-		
-		
+
+
 		<div class="col-md-12" id="no_data" ng-show="showIfNoData">
 			<div class="container-fluid">
 				<div class="col-md-12">
 					<section class="profile-section col-md-12 col-sm-12 col-xs-12">
 						<div class="col-md-12 profile-entry">
-							<div id="profileTable" class="col-md-12 accordion-content expanded">
+							<div id="profileTable"
+								class="col-md-12 accordion-content expanded">
 								<div class='content'>
 									<h2 class="col-md-12 no_records">No record found !</h2>
 								</div>
@@ -130,8 +133,8 @@ section.bottomfooter {
 				</div>
 			</div>
 		</div>
-		
-		
+
+
 		<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;
 	</div>
 
@@ -144,14 +147,17 @@ section.bottomfooter {
 		<div class="modal-dialog">
 			<!-- Modal content -->
 			<div class="modal-content submsnDetailsTableeModal">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
 				<div class="modal-body text-center">
-					<div class="infohead">
+				<button data-dismiss="modal" class="close close-button">×</button>
+					<div class="infohead margin-topofInfo">
 						<img alt="" src="resources/images/icons/Messages_info_icon.svg"
 							style="width: 25px; margin-top: -5px;">&nbsp; INFO
 					</div>
 					<div class="col-md-12">
 						<div class="col-md-12">
-							<section class="profile-section col-md-12 col-sm-12 col-xs-12 submissionMgmtTable previewofDataentry">
+							<section
+								class="profile-section col-md-12 col-sm-12 col-xs-12 submissionMgmtTable previewofDataentry">
 								<div class="profile-entry">
 									<div id="profileTable" class="accordion-content expanded">
 										<div class='content'>
@@ -171,7 +177,7 @@ section.bottomfooter {
 														</tr>
 													</thead>
 													<tbody>
-														<tr ng-repeat="td in previewData">
+														<tr ng-repeat="td in previewData | orderBy : 'indicatorName'"> 
 															<td>{{$index+1}}</td>
 
 															<td class="dataentry-indicatorName-td">{{td.indicatorName}}</td>

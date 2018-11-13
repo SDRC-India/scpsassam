@@ -6,7 +6,7 @@
 
 <html lang="en">
 <jsp:include page="fragments/headTag.jsp" />
-<jsp:include page="fragments/bodyHeaderlogin.jsp" />
+<jsp:include page="fragments/bodyHeader.jsp" />
 
 <body ng-app="icpsIcpo" ng-controller="factSheetController" ng-cloak>
 	<div class="container" style="padding-bottom: 20px;">
@@ -105,7 +105,7 @@
 									<i class="fa fa-calendar" aria-hidden="true"></i>
 								</button>
 								<ul class="dropdown-menu" role="menu">
-									<li ng-repeat="tp in timePeriodList"
+									<li ng-repeat="tp in timePeriodList | orderBy : '-startDate'"
 										ng-click="selectTimeperiod(tp);"><a href="">{{tp.timePeriod}}</a></li>
 								</ul>
 							</div>
@@ -289,10 +289,10 @@
 							</tr>
 							<tr>
 								<th class="thwidth2"
-									ng-repeat="indi in sctorTableSecondRow | orderBy : ['ic_Name','indicator_Name'] "
+									ng-repeat="key in Keys | orderBy : 'sorting'"
 									style="vertical-align: bottom; background-color: #fff !important"
 									padding-bottom: 0; position:relative;">
-									{{indi.indicator_Name}}</th>
+									{{key.indicator}}</th>
 							</tr>
 						</thead>
 
@@ -301,7 +301,7 @@
 								ng-repeat="data in subSectorData | orderBy : 'districtInfo.value'">
 								<td class="text-right">{{data.districtInfo.value}}</td>
 								<td class="text-center  cellWidth"
-									ng-repeat="key in Keys | orderBy : ['sector' ,'indicator'] "
+									ng-repeat="key in Keys | orderBy : 'sorting'"
 									title="{{tooltipTitle(key)}}">
 									{{data.sectorData[key.keyValue]}}</td>
 							</tr>

@@ -16,32 +16,37 @@
 <title>SCPSAssam-login</title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <link rel="stylesheet" href="resources/css/bootstrap.min.css">
-<link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+<link href='http://fonts.googleapis.com/css?family=Ubuntu:400,300'
+	rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
 <link rel="stylesheet" href="resources/css/font-awesome.min.css">
 <link rel="stylesheet" href="resources/css/customLoader.css">
 <link rel="stylesheet" href="resources/css/style.css">
 <link rel="stylesheet" href="resources/css/stylelogin.css">
+<link rel="stylesheet" href="resources/css/jquery-ui.css">
 <!--[if lte IE 12]>
   <link rel="stylesheet" type="text/css" media="screen, projection" href="resources/css/ie12-down.css" />
 <![endif]-->
 
-<spring:url value="/webjars/jquery/2.0.3/jquery.min.js" var="jQuery" />
-<script src="${jQuery}"></script>
-<spring:url value="/webjars/bootstrap/3.1.1/js/bootstrap.min.js"
-	var="bootstrapjs" />
-<script src="${bootstrapjs}"></script>
+<%-- <spring:url value="/webjars/jquery/2.0.3/jquery.min.js" var="jQuery" /> --%>
+<%-- <script src="${jQuery}"></script> --%>
+<%-- <spring:url value="/webjars/bootstrap/3.1.1/js/bootstrap.min.js" --%>
+<%-- 	var="bootstrapjs" /> --%>
+<%-- <script src="${bootstrapjs}"></script> --%>
 <spring:url value="/webjars/angularjs/1.5.5/angular.min.js"
 	var="angularmin" />
 <script src="${angularmin}" type="text/javascript"></script>
+<!-- <script src="resources/js/html5shiv.js" type="text/javascript"></script> -->
+
 
 </head>
 
 <style>
 
- .footer_width 
+ .footer-bottom 
  { 
-  position: fixed; 
-  bottom: 0; */
+  position: fixed !important; 
+  bottom: 0; 
   width: 100%; 
  } 
 </style>
@@ -133,59 +138,62 @@
 							<div class="col-md-8 col-sm-8 col-xs-8">
 								<input type="text" class="form-control" id="username"
 									placeholder="Enter username" ng-model="forgotpassUsername" />
-							<div style="display: inline-block; margin-left: 10px; color: red; vertical-align: middle;"
-								id="usernameError" class="error-style">
+								<div
+									style="display: inline-block; margin-left: 10px; color: red; vertical-align: middle;"
+									id="usernameError" class="error-style"></div>
 							</div>
-						   </div>
 							<button type="submit" class="btn btn-default forgot-pass-btn"
 								ng-blur="clearErrormsg(forgotpassUsername,'emailOtpError')"
-								ng-click="sendOTP(forgotpassUsername,'emailOtpError')">Generate OTP
-							</button>
-							<div style="display: inline-block; margin-left: 10px; color: red; vertical-align: middle;"
-								id="emailOtpError" class="error-style">
-							</div>
+								ng-click="sendOTP(forgotpassUsername,'emailOtpError')">Generate
+								OTP</button>
+							<div
+								style="display: inline-block; margin-left: 10px; color: red; vertical-align: middle;"
+								id="emailOtpError" class="error-style"></div>
 						</div>
 						<div class="form-group" ng-show="IsVisible">
 							<div class="col-md-12 col-sm-10 forgotPassUsername">
 								<label>OTP sent to your email Id</label>
 							</div>
 							<div class="col-md-8 col-sm-8 col-xs-8">
-								<input type="text" class="form-control otpmatchedpng" id="otp" only-six-digits
-									placeholder="Enter OTP" ng-model="forgotpassOTP" ng-change="validateOTPforforgotPass(forgotpassOTP,'otpverified','otpinvalid')"/> 
-									<span class="correctMark otpmatchedsign" ng-show="ifOtpmatched">
+								<input type="text" class="form-control otpmatchedpng" id="otp"
+									only-six-digits placeholder="Enter OTP"
+									ng-model="forgotpassOTP"
+									ng-change="validateOTPforforgotPass(forgotpassOTP,'otpverified','otpinvalid')" />
+								<span class="correctMark otpmatchedsign" ng-show="ifOtpmatched">
 									<svg height="24" width="24" viewBox="0 0 24 24"
 										xmlns="http://www.w3.org/2000/svg" class="">
 										<path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"
 											stroke="#388e3c">
 										</path>
 									</svg>
-									</span>
-								<div style="display: inline-block; margin-left: 0px; color: #46b746; vertical-align: middle;"
-									id="otpverified" class="error-style">
-								</div>
-								<div style="display: inline-block; margin-left: 0px; color: red;; vertical-align: middle;"
-									id="otpinvalid" class="error-style">
-								</div>
+								</span>
+								<div
+									style="display: inline-block; margin-left: 0px; color: #46b746; vertical-align: middle;"
+									id="otpverified" class="error-style"></div>
+								<div
+									style="display: inline-block; margin-left: 0px; color: red;; vertical-align: middle;"
+									id="otpinvalid" class="error-style"></div>
 							</div>
 							<button type="submit" class="btn btn-default forgot-pass-btn"
-								ng-click="resendOTP(forgotpassUsername,'emailOtpError')">Resend OTP</button>
+								ng-click="resendOTP(forgotpassUsername,'emailOtpError')">Resend
+								OTP</button>
 						</div>
-						
+
 						<div class="form-group" ng-show="setpassIsVisible">
 							<div class="col-md-12 col-sm-10 forgotPassUsername">
 								<label>Set Password</label>
 							</div>
 							<div class="col-md-8 col-sm-8 col-xs-8">
-								<input type="password" class="form-control" id="newpasswordId" 
-								placeholder="Enter your new password" ng-model="newpassword" />
-<!-- 									placeholder="Enter your new password" ng-model="newpassword" data-toggle="password" /> -->
-								
-								<div style="display: inline-block; margin-left: 0px; color: red; vertical-align: middle;"
-									id="setpassError" class="error-style">
-								</div>
-								<div style="display: inline-block; margin-left: 0px; color: #46b746; vertical-align: middle;"
-									id="setpassSuccessmsg" class="error-style">
-								</div>
+								<input type="password" class="form-control" id="newpasswordId"
+									placeholder="Enter your new password" ng-model="newpassword" />
+								<!-- 									placeholder="Enter your new password" ng-model="newpassword" data-toggle="password" /> -->
+
+								<div
+									style="display: inline-block; margin-left: 0px; color: red; vertical-align: middle;"
+									id="setpassError" class="error-style"></div>
+								<div
+									style="display: inline-block; margin-left: 0px; color: #46b746; vertical-align: middle;"
+									id="setpassSuccessmsg" class="error-style"></div>
 							</div>
 							<button type="submit" class="btn btn-default forgot-pass-btn"
 								ng-click="setPass(newpassword,'setpassError','setpassSuccessmsg')">Submit</button>
@@ -194,8 +202,8 @@
 				</div>
 				<!-- Modal Footer -->
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clearInput()">
-						Close</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal"
+						ng-click="clearInput()">Close</button>
 				</div>
 			</div>
 		</div>

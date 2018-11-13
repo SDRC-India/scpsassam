@@ -34,7 +34,6 @@ public interface DashboardService {
 
 	public boolean publishData();
 
-	boolean displayPublishButton();
 
 	boolean publishData(int agencyId, int year, int month, String monthString);
 }

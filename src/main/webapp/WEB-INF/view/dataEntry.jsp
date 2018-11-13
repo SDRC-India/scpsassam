@@ -20,19 +20,21 @@
 <link rel="stylesheet" href="resources/css/customLoader.css">
 <link rel="stylesheet" href="resources/css/style.css">
 <link rel="stylesheet" href="resources/css/stylelogin.css">
-
+<link rel="stylesheet" href="resources/css/jquery-ui.css">
 <!--[if lte IE 12]>
   <link rel="stylesheet" type="text/css" media="screen, projection" href="resources/css/ie12-down.css" />
 <![endif]-->
 
 <spring:url value="/webjars/jquery/2.0.3/jquery.min.js" var="jQuery" />
 <script src="${jQuery}"></script>
-<spring:url value="/webjars/bootstrap/3.1.1/js/bootstrap.min.js"
-	var="bootstrapjs" />
-<script src="${bootstrapjs}"></script>
+<%-- <spring:url value="/webjars/bootstrap/3.1.1/js/bootstrap.min.js" --%>
+<%-- 	var="bootstrapjs" /> --%>
+<%-- <script src="${bootstrapjs}"></script> --%>
 <spring:url value="/webjars/angularjs/1.5.5/angular.min.js"
 	var="angularmin" />
 <script src="${angularmin}" type="text/javascript"></script>
+<script src="resources/js/html5shiv.js" type="text/javascript"></script>
+
 
 </head>
 <jsp:include page="fragments/bodyHeaderlogin.jsp" />
@@ -50,7 +52,7 @@ section.bottomfooter {position: fixed; !important;}
 </style>
 	<div id="mymain" class="container-fluid">
 		<div class="col-md-12">
-			<div class="col-md-5 facilityDetails">
+			<div class="col-md-7 col-sm-7 facilityDetails">
 				<ul class="infodetails">
 					<li><h4><b>Institution:</b> {{locationDetails}}</h4></li>
 				</ul>
@@ -77,7 +79,7 @@ section.bottomfooter {position: fixed; !important;}
 		
 		
 				
-		<section class="profile-section col-md-12 col-sm-12 col-xs-12">
+		<section class="profile-section dataentry-table col-md-12 col-sm-12 col-xs-12">
 		<div class="profile-entry">
 		<div id="profileTable" class="accordion-content expanded">
 		<div class='content'>
@@ -100,7 +102,7 @@ section.bottomfooter {position: fixed; !important;}
 								</tr>
 							</thead>
 							<tbody >
-									<tr ng-repeat="td in tableData">
+									<tr ng-repeat="td in tableData | orderBy : 'indicatorName'"> 
 										<td>{{$index+1}}</td>
 
 										<td class="dataentry-indicatorName-td">{{td.indicatorName}}</td>
@@ -145,7 +147,6 @@ section.bottomfooter {position: fixed; !important;}
 				</div>
 				</div>
 				</div>
-
 		</section>
 		
 	</div>
@@ -154,20 +155,20 @@ section.bottomfooter {position: fixed; !important;}
 	<!-- Modal for confirm adding indicator -->
 	
 	<!-- Modal for error message -->
-	<div id="errorMessage" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+	<div id="errorMessage" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false" tabindex="-1">
 		<div class="modal-dialog">
 			<!-- Modal content -->
 			<div class="modal-content">
 				<div class="modal-body text-center">
 					<div class="errorhead"><img alt="" src="resources/images/icons/Messages_warning_caution_icon.svg" style="width: 25px;margin-top: -5px;">&nbsp; ERROR</div>
 					<div class="errorbody">{{errorMsg}}</div>
-					<button type="button" class="btn errorOk" data-dismiss="modal" >Close</button>
+					<button type="button" class="btn errorOk" data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	
-	<div id="errorMessageinfo" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+	<div id="errorMessageinfo" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false" tabindex="-1">
 		<div class="modal-dialog">
 			<!-- Modal content -->
 			<div class="modal-content">
@@ -181,7 +182,7 @@ section.bottomfooter {position: fixed; !important;}
 	</div>
 	<!--end of thematic and chklist  -->
 	<!-- Modal for warning message -->
-	<div id="warningMessage" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+	<div id="warningMessage" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false" tabindex="-1">
 		<div class="modal-dialog">
 			<!-- Modal content -->
 			<div class="modal-content">
@@ -193,7 +194,7 @@ section.bottomfooter {position: fixed; !important;}
 			</div>
 		</div>
 	</div>
-	<div id="infoMessage" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+	<div id="infoMessage" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false" tabindex="-1">
 		<div class="modal-dialog">
 			<!-- Modal content -->
 			<div class="modal-content">
@@ -206,7 +207,7 @@ section.bottomfooter {position: fixed; !important;}
 		</div>
 	</div>
 	
-	<div id="updateinfoMessage" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+	<div id="updateinfoMessage" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false" tabindex="-1">
 		<div class="modal-dialog">
 			<!-- Modal content -->
 			<div class="modal-content">
@@ -222,7 +223,7 @@ section.bottomfooter {position: fixed; !important;}
 	<!-- Modal for warning message -->
 	
 	<!-- Modal for warning message -->
-	<div id="confirmSaveModal" class="confrirmation-modal modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+	<div id="confirmSaveModal" class="confrirmation-modal modal fade" role="dialog" data-backdrop="static" data-keyboard="false" tabindex="-1">
 		<div class="modal-dialog">
 			<!-- Modal content -->
 			<div class="modal-content">
@@ -236,7 +237,7 @@ section.bottomfooter {position: fixed; !important;}
 		</div>
 	</div>
 	
-	<div id="confirmModifyProfileModal" class="confrirmation-modal modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+	<div id="confirmModifyProfileModal" class="confrirmation-modal modal fade" role="dialog" data-backdrop="static" data-keyboard="false" tabindex="-1">
 		<div class="modal-dialog">
 			<!-- Modal content -->
 			<div class="modal-content">
@@ -250,7 +251,7 @@ section.bottomfooter {position: fixed; !important;}
 		</div>
 	</div>
 	<!-- popup modal -->
-	<div id="pop" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+	<div id="pop" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false" tabindex="-1">
 		<div class="modal-dialog">
 			<!-- Modal content-->
 			<div class="modal-content">
@@ -281,8 +282,6 @@ section.bottomfooter {position: fixed; !important;}
 	});
 	</script>
 	<script type="text/javascript">
-
-		
 		$(window).scroll(function(){
 			if($(window).scrollTop()>100)
 			$('#head2').addClass('nav-fixed');
@@ -290,8 +289,14 @@ section.bottomfooter {position: fixed; !important;}
 			else
 				$('#head2').removeClass('nav-fixed');
 		})
-		
-		 
+</script>
+
+<script type="text/javascript">
+// $(document).on('keydown', function(event) {
+//     if (event.keyCode == 9) {   //tab pressed
+//         event.preventDefault(); // stops its action
+//     }
+// });
 </script>
 </body>
 <jsp:include page="fragments/footer.jsp"></jsp:include>

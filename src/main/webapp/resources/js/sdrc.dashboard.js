@@ -527,7 +527,7 @@ app
 								.attr("class", "legend").style("fill",
 										function() {
 											return color(dataNest[i].key);
-										}).style("font-size", "11px").text(dataNest[i].key);
+										}).style("font-size", "10px").text(dataNest[i].key);
 
 //								svg.append("rect").attr("x", width + 4)// author
 //								// anyatama

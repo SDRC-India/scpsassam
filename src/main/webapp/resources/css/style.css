@@ -93,7 +93,7 @@ html, body {
 }
 .forgotPass
 {
-	color: #54aef6;
+	color: #66bc29;
     text-decoration: none;
     cursor: pointer;
 }
@@ -110,7 +110,7 @@ html, body {
 }
 .forgotPass-header
 {
-	background: #54aef6;
+	background: #66bc29;
 	text-align: center;
 	color: #fff;
 }
@@ -120,14 +120,14 @@ input#username,input#otp
 }
 .btn-default {
     color: #fff;
-    background-color: #54aef6;
-    border-color: #54aef6;
+    background-color: #66bc29;
+    border-color: #66bc29;
     width: 105px;
 }
 .btn-default:hover {
     color: #fff;
-    background-color: #54aef6;
-    border-color: #54aef6;
+    background-color: #66bc29;
+    border-color: #66bc29;
 }
 .modal-footer {
     padding: 15px;
@@ -235,7 +235,14 @@ a.navbar-brand {
 /****** end header css *****/
 
 /****** footer css *****/
-
+.footer-bottom
+{
+	background-color: #66bc29;
+	position:relative !important;
+	width:100%;
+	bottom:0 !important;
+	 z-index: 500;
+}
 .foot_support
 {
 	color: #fff;
@@ -289,6 +296,11 @@ span.poweredbysdrc
 /****** end footer css *****/
 
 /******* data entry page css **********/
+
+
+.mystyle {
+    background-color: #fff !important;
+}
 .facilityDetails {
    margin-top: -90px;
     padding-left:0;
@@ -395,6 +407,15 @@ span.poweredbysdrc
     box-shadow: 0px 1px 5px 1px #CCC;
     height: 41px;
 }
+.submissionPageInfo {
+	position: absolute;
+    top: -146px;
+    right: -71%;
+    padding: 6px 60px;
+    background-color: #FFF;
+    box-shadow: 0px 1px 5px 1px #CCC;
+    height: 41px;
+}
 
 .addingMisReportbar {
        height: auto;
@@ -452,7 +473,7 @@ section.profile-section
 .timeperiodWithoutBoxshdw
 {
 	box-shadow: none !important;
-	bottom: 45px;
+	bottom: 0;
 }
 .hiding-cursor
 {
@@ -475,7 +496,7 @@ section.profile-section
     margin-bottom: 20px;
     width: 97% !important;
     margin-left: 14px;
-    top: -13px;
+    top: -48px
 }
 .pageNameContainerIndicator
 {
@@ -672,7 +693,7 @@ input
 {
 	text-align: right;
 	padding-right: 28px;
-    top: -10px;
+    top: -48px
 }
 .mandatory_star
  {
@@ -836,7 +857,16 @@ input
 	width: 175%;
     margin-left: -229px;
 }
-
+.margin-topofInfo
+{
+	margin-top: 20px !important;
+}
+.close-button{
+font-size: 27px !important;
+    color: black !important;
+    margin-top: -11px;
+    margin-right: -7px;
+}
 
 /********* end submission management page css ******/
 
@@ -4987,6 +5017,14 @@ th.text-center.labelFont.thdiswidth
 /******* tablet landscape ******/
 @media ( max-width : 991px)
  {
+ 
+ /***header***/
+ .navbar-default .navbar-nav li a {
+    margin-right: 0 !important;
+}
+ 
+ /**end header ***/
+ 
  /****** indicator management *******/
  
  .sectorleft
@@ -5007,15 +5045,22 @@ th.text-center.labelFont.thdiswidth
 }
 .denominatorPadding
 {
-    width: 51% !important;
+   width: 26% !important;
     padding-right: 37px !important;
+    float: left !important;
 }
 .input-group.indicator-width.denominatorwidth-mobile
  {
     margin-left: -1px;
 }
 .indicator-width {
-    width: 205%;
+    width: 110% !important;
+}
+.input-group.metadataWidth {
+    width: 93% !important;
+}
+.pageNameContainerReport {
+    top: -178px !important;
 }
 .rolemrgin
  {
@@ -5040,7 +5085,7 @@ th.text-center.labelFont.thdiswidth
 }
 .manuallyindicatorPaddingLeft
 {
-	 margin-left: 0;
+	     margin-left: 14px;
 }
 .tabletViewlandscpaeindctr
 	{
@@ -5048,11 +5093,11 @@ th.text-center.labelFont.thdiswidth
 	}
 	.metadataMargin
 	 {
-        margin-left: 55px;
+       margin-left: -3px;
 	}
 	.margintopofMetaData
 	{
-		 top: -107px;
+		 top: 0;
 	}
 	textarea#meta-data
 	 {
@@ -5073,8 +5118,11 @@ th.text-center.labelFont.thdiswidth
 	}
 	.tabletMarginleft
 	{
-		margin-left: 73px;
+		margin-left: 0;
 	}
+	.pageNameContainerIndicator {
+    top: -162px !important;
+    }
  
  /******* end indicator management ******/
  
@@ -5085,6 +5133,16 @@ th.text-center.labelFont.thdiswidth
     width: 100%;
     margin-left: 0;
   }
+  .submissionPageInfo {
+    top: -38px !important;
+    right: 0;
+}
+div#mymain {
+    margin-top: 163px;
+}
+section.profile-section {
+    margin-top: 100px;
+}
  
  /***** end submission management page ******/
  
@@ -5211,6 +5269,38 @@ div#trendDiv
 	}
  /****** end index page ******/
  
+ /***** start login page ******/
+ 
+ .scpsLogoHeadInfo {
+    width: 100%;
+}
+ 
+ /****** end login page ******/
+ 
+ /***start data entry ***/
+ 
+ .pageNameContainer {
+    top: -182px;
+    right: 0;
+ }
+ .facilityDetails {
+    margin-top: -145px !important;
+    padding-left: 0;
+}
+ .monthSelection
+ {
+ 	margin-top: -60px;
+ }
+ section.dataentry-table {
+    margin-top: -10px;
+}
+ /****end data entry ****/
+ .footer-unicef {
+    text-align: left !important;
+}
+.footer-sdrc {
+    text-align: right !important;
+}
 }
 
 /****** end tablet landscape ******/
@@ -5219,6 +5309,11 @@ div#trendDiv
  
  @media ( max-width : 768px)
   {
+  
+  .navbar-default .navbar-nav li a {
+    margin-right: 6px !important;
+        padding: 11px 18px !important;
+}
   
   /***** login page ********/
   
@@ -5249,20 +5344,30 @@ panel.panel-default.panelBox
  
  /****** data entry page *******/
  
- .pageNameContainer
- {
- 	margin-top: 0 !important;
- }
+.pageNameContainer {
+     margin-top: 21px !important;
+    right: 0% !important;
+}
  .mandatoryfieldsData
  {
  	margin-top: 25px !important;
  }
- 
+ .timeperiodWithoutBoxshdw {
+    bottom: 0 !important;
+}
+
+.facilityDetails {
+    margin-top: -55px;
+    padding-left: 0;
+}
  
  /******* end data entry page *******/
  
  /******* indicator management page ********/
- 
+ .tabletMarginleft {
+    margin-left: 0;
+}
+
  .subsectorleft
  {
  	margin-left: -47px !important;
@@ -5271,12 +5376,12 @@ panel.panel-default.panelBox
  {
  	margin-left: 4px !important;
  }
- .sectrboxinIpadview
- {
- 	 width: 235px !important;
- }
+/*  .sectrboxinIpadview */
+/*  { */
+/*  	 width: 235px !important; */
+/*  } */
  .indicator-width {
-    width: 270% !important;
+        width: 109% !important;
 }
 .publishdatebox, .rolemrgin, .marginfromright {
     margin-left: 0 !important;
@@ -5305,10 +5410,10 @@ panel.panel-default.panelBox
 {
 	 margin-top: 7px !important;
 }
- .margin-topAllinone
- {
- 	margin-top: 0 !important;
- }
+ .margin-topAllinone {
+    margin-top: 0 !important;
+    margin-bottom: 30px !important;
+}
  .denominatorPadding
  {	
  	padding-left: 14px !important;
@@ -5534,7 +5639,7 @@ panel.panel-default.panelBox
 }
 	/**** end dashboard page *****/
 	
-/* for index page */
+/* start index page */
 
 .legendQuality {
 		padding-left: 5px !important;
@@ -5629,8 +5734,20 @@ button.col-md-2.btn.btn-link.text-right.exportTableData span
     margin-left: 36px !important;
 	}
 	/***** end index page *****/
+	/**** start submission mgmt page *****/
 	
+	div#record_found {
+		top: 100px;
+	}
+	
+	.submissionPageInfo
+	{
+		margin-top: 21px !important;
+    	 right: 0% !important;
+	}
  }
+
+	/***** end submission mgmt page*****/
  
  
  /********** end ipad portrait view ********/
@@ -5640,9 +5757,34 @@ button.col-md-2.btn.btn-link.text-right.exportTableData span
 @media ( max-width : 608px)
   {
   /**** header ******/
+  .navbar-toggle {
+    padding: 0 0 !important;
+  }
+  .nav>li {
+    	margin-right: 0 !important;
+	}
+	.navbar-nav {
+    	margin-left: 0;
+    	background: #66bc29;
+	}
+	.navbar-nav>li {
+    	float: none !important;
+    	margin-right: 0 !important;
+	}
+	
+	.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+    	margin-top: -7px !important;
+    	padding: 0 !important;
+	}
+	.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+    border-color: transparent;
+    border-top: 1px solid #000;
+    width: 112%;
+    margin-left: -31px;
+}
   .navbar-header
   {
-  	 margin-top: 8px !important;
+  	 margin-top: 1px !important;
   }
   .navbar-right
   {
@@ -5667,11 +5809,24 @@ button.col-md-2.btn.btn-link.text-right.exportTableData span
 	{
     	width: 100% !important;
 	}
-  /***** end header ******/
-  
-  /***** footer ******/
-  
-  .alignwithBodyContainer 
+	/***** end header ******/
+
+	/***** footer ******/
+	.footer-unicef {
+    text-align: center !important;
+}
+	.copyright-txtt p {
+		margin-top: 4px !important;
+	}
+	.footer-sdrc {
+		padding: 0 !important;
+    text-align: center !important;
+	}
+	p.footer-sdrc {
+    margin-left: -70px !important;
+    margin-top: -12px !important;
+}
+	.alignwithBodyContainer 
     {
    		 padding: 0 18px !important;
 	}
@@ -5736,6 +5891,10 @@ button.col-md-2.btn.btn-link.text-right.exportTableData span
 	 {
     	margin-left: 2px !important;
 	}
+	.year-div
+	{
+	    margin-left: 54px !important;
+	}
 	.labelSubsctIntablet
 	{
 		 float: left !important;
@@ -5778,6 +5937,19 @@ button.col-md-2.btn.btn-link.text-right.exportTableData span
     	width: 100%;
     	margin-left: 0;
 	}
+	.submissionPageInfo {
+    margin-top: 22px !important;
+	}
+	.facilityDetails {
+    top: 35px !important;
+    padding-left: 0;
+}
+.monthSelection {
+    margin-top: 36px !important;
+}
+.pageNameContainer {
+    top: -93px !important;
+}
   /****** end submission management page css ******/	
 	/******* start dashboard page ******/
 	

@@ -9,7 +9,7 @@
 
 <html ng-app="misReportApp">
 <head>
-
+<link rel="shortcut icon" href="resources/images/icons/favicon.ico" type="image/x-icon"> 
 <title>SCPS Assam-MIS Report</title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <link rel="stylesheet" href="resources/css/bootstrap.min.css">
@@ -37,13 +37,12 @@
 </head>
 <style type="text/css">
 section.bottomfooter {position: fixed; !important;}
-/* .navbar */
-/* { */
-/* 	position: fixed; */
-/*     top: 0; */
-/*     width: 100%; */
-/*     z-index: 200; */
-/* } */
+ .footer-bottom 
+ { 
+  position: fixed !important; 
+  bottom: 0; 
+  width: 100%; 
+ } 
 </style>
 <jsp:include page="fragments/bodyHeaderlogin.jsp" />
 <body ng-controller="misReportController" class="xoverflowHidden" ng-cloak>
@@ -52,7 +51,7 @@ section.bottomfooter {position: fixed; !important;}
 			<h3>{{pageName}}</h3>
 		</div>
 			<div class="col-md-12 col-sm-12 col-xs-12 addingMisReportbar">
-				<div class="col-md-6 col-sm-5 col-xs-12 summaryAllbox monthInMis">
+				<div class="col-md-6 col-sm-6 col-xs-12 summaryAllbox monthInMis">
 					<label class="col-md-2 text-right labelFont sectorleft">Month </label>
 						<div class=" col-md-6 col-xs-6 select-container text-center sectorboxinTabletView sectrboxinIpadview">
 							<div class="input-group report-width">
@@ -77,7 +76,7 @@ section.bottomfooter {position: fixed; !important;}
 						</div>
 				</div>
 				
-				<div class="col-md-6 col-sm-5 col-xs-12 summaryAllbox subsectorleft">
+				<div class="col-md-6 col-sm-6 col-xs-12 summaryAllbox subsectorleft year-div">
 					<label class="col-md-3 text-right labelFont labelSubsctIntablet">Year </label>
 						<div class=" col-md-6 col-xs-6 select-container text-center subsectorboxinTablt sectrboxinIpadview">
 							<div class="input-group report-width reportgrpSubsectrWidthtablet">
@@ -104,10 +103,24 @@ section.bottomfooter {position: fixed; !important;}
 			
 				<div class="text-center">
 							<button class="submitIndicator"
-								ng-click="downloadExcel()">Download Report</button>
+								ng-click="downloadExcel()">DOWNLOAD REPORT</button>
 						</div>
 				</div>
 		</div>
+		
+		<div id="errorMessage" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog">
+			<!-- Modal content -->
+			<div class="modal-content">
+				<div class="modal-body text-center">
+					<div class="errorhead"><img alt="" src="resources/images/icons/Messages_warning_caution_icon.svg" style="width: 25px;margin-top: -5px;">&nbsp; ERROR</div>
+					<div class="errorbody">{{errorMsg}}</div>
+					<button type="button" class="btn errorOk" data-dismiss="modal" >Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+		
 	<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;
 
 	<script type="text/javascript" src="resources/js/jquery-ui.js"></script>

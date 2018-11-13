@@ -21,4 +21,7 @@ public interface RoleRepository {
 
 	public Role findByRoleId(int roleId);
 
+
+	public Role findByRoleCode(String name);
+
 }

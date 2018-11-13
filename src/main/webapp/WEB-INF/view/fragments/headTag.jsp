@@ -1,6 +1,7 @@
 
-
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <head>
+<link rel="shortcut icon" href="resources/images/icons/favicon.ico" type="image/x-icon"> 
 <meta http-equiv="Content-Type"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
 <meta content="width=device-width, initial-scale=1.0" name="viewport">

@@ -240,7 +240,8 @@ app.controller('factSheetController', function(Excel, $scope, $timeout, $http,$f
     				id:	"1",
     				keyValue:Object.keys($scope.subSectorData[0].sectorData)[i],
     				sector:Object.keys($scope.subSectorData[0].sectorData)[i].split('_')[1],
-    				indicator:Object.keys($scope.subSectorData[0].sectorData)[i].split('_')[0]
+    				indicator:Object.keys($scope.subSectorData[0].sectorData)[i].split('_')[0],
+    				sorting:(Object.keys($scope.subSectorData[0].sectorData)[i].split('_')[1]).concat("_").concat(Object.keys($scope.subSectorData[0].sectorData)[i].split('_')[0])
     				}
         		$scope.Keys.push(key);
     			}

@@ -90,7 +90,7 @@
 		<quartz.version>1.8.6</quartz.version>
 	</properties>
 	<dependencies>
-	
+
 		<!-- https://mvnrepository.com/artifact/org.xhtmlrenderer/core-renderer -->
 		<dependency>
 			<groupId>org.xhtmlrenderer</groupId>
@@ -577,6 +577,19 @@
 			<artifactId>smallsql</artifactId>
 			<version>0.21</version>
 		</dependency>
+		<dependency>
+			<groupId>p6spy</groupId>
+			<artifactId>p6spy</artifactId>
+			<version>3.6.0</version>
+		</dependency>
+
+		
+<dependency>
+    <groupId>com.mchange</groupId>
+    <artifactId>c3p0</artifactId>
+    <version>0.9.5.2</version>
+</dependency>
+		
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -627,6 +640,7 @@
 				<version>1.10.19</version>
 				<scope>test</scope>
 			</dependency>
+
 
 		</dependencies>
 

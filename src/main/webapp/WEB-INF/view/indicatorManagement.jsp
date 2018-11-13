@@ -9,7 +9,7 @@
 
 <html ng-app="indicatorManagementApp">
 <head>
-
+<link rel="shortcut icon" href="resources/images/icons/favicon.ico" type="image/x-icon"> 
 <title>SCPS Assam-Indicator Management</title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <link rel="stylesheet" href="resources/css/bootstrap.min.css">
@@ -27,12 +27,7 @@
 
 <spring:url value="/webjars/jquery/2.0.3/jquery.min.js" var="jQuery" />
 <script src="${jQuery}"></script>
-<%-- <spring:url value="/webjars/bootstrap/3.1.1/js/bootstrap.min.js" --%>
-<%-- 	var="bootstrapjs" /> --%>
-<%-- <script src="${bootstrapjs}"></script> --%>
-<spring:url value="/webjars/angularjs/1.5.5/angular.min.js"
-	var="angularmin" />
-<script src="${angularmin}" type="text/javascript"></script>
+
 <script src="resources/js/html5shiv.js" type="text/javascript"></script>
 
 
@@ -47,6 +42,7 @@ section.bottomfooter {position: fixed; !important;}
 /*     z-index: 200; */
 /* } */
 </style>
+
 <jsp:include page="fragments/bodyHeaderlogin.jsp" />
 <body ng-controller="indicatorManagementController" class="xoverflowHidden" ng-cloak>
 	<div id="mymain" class="container-fluid">
@@ -114,7 +110,7 @@ section.bottomfooter {position: fixed; !important;}
 	<div class="line-separator margin-topIpad"></div>
 		<div class="col-md-8 indicatorTop">
 			<div class="col-md-12 col-sm-12 col-xs-12 summaryAllbox lineseparatorBottom tabletMarginleft" >
-					<div class="col-md-12 col-sm-6 col-xs-6 tabletViewlandscpaeindctr">
+					<div class="col-md-12 col-sm-12 col-xs-6 tabletViewlandscpaeindctr">
 					<label class="col-md-3 text-right labelFont inicatorPadding indicatorboxwidthipad">Indicator Name <span class="mandatory_star">&#42;</span></label>
 						<div class=" col-md-8 col-xs-10 select-container text-center manuallyindicatorPaddingLeft">
 							<div class="input-group indicator-width">
@@ -127,7 +123,7 @@ section.bottomfooter {position: fixed; !important;}
 					</div>
 				</div>
 				<div class="col-md-12 col-sm-12 col-xs-12 summaryAllbox numeratorboxIn-mobile tabletMarginleft">
-					<div class="col-md-12 col-sm-6 col-xs-6 numeratorBoxLabel-mobile">
+					<div class="col-md-12 col-sm-12 col-xs-6 numeratorBoxLabel-mobile">
 					<label class="col-md-3 text-right labelFont inicatorPadding numeratorboxwidthipad">Numerator Name <span class="mandatory_star">&#42;</span></label>
 						<div class=" col-md-8 col-xs-10 select-container text-center manuallyindicatorPaddingLeft">
 							<div class="input-group indicator-width numeratorwidth-mobile">
@@ -140,7 +136,7 @@ section.bottomfooter {position: fixed; !important;}
 					</div>
 				</div>
 				<div class="col-md-12 col-sm-12 col-xs-12 summaryAllbox denominatorbox-mobile tabletMarginleft">
-					<div class="col-md-12 col-sm-6 col-xs-6 denominatorBoxlebl-mobile">
+					<div class="col-md-12 col-sm-12 col-xs-6 denominatorBoxlebl-mobile">
 					<label class="col-md-3 col-xs-12 text-right labelFont denominatorPadding">Denominator Name <span class="mandatory_star">&#42;</span></label>
 						<div class=" col-md-8 col-xs-10 select-container text-center denominatorwidthinMob manuallyindicatorPaddingLeft ">
 							<div class="input-group indicator-width denominatorwidth-mobile">
@@ -153,7 +149,7 @@ section.bottomfooter {position: fixed; !important;}
 				</div>
 				</div>
 				<div class="col-md-4 col-sm-12 col-xs-12 summaryAllbox metadataMargin">
-					<div class="col-md-12 col-sm-6 col-xs-6 metadata-mobile">
+					<div class="col-md-12 col-sm-12 col-xs-6 metadata-mobile">
 					<label class="col-md-12 labelFont margintopofMetaData">Meta Data :</label>
 						<div class="col-md-12 select-container text-center metadataText-width">
 							<div class="input-group indicator-width metadataWidth">
@@ -361,7 +357,7 @@ section.bottomfooter {position: fixed; !important;}
 			<div class="modal-content">
 				<div class="modal-body text-center">
 					<div class="errorhead"><img alt="" src="resources/images/icons/Messages_warning_caution_icon.svg" style="width: 25px;margin-top: -5px;">&nbsp; ERROR</div>
-					<div class="errorbody"><b>{{validationMsg}}</b></div>
+					<div class="errorbody">{{validationMsg}}</div>
 					<button type="button" class="btn errorOk" data-dismiss="modal">Close</button>
 				</div>
 			</div>
@@ -374,7 +370,7 @@ section.bottomfooter {position: fixed; !important;}
 			<div class="modal-content">
 				<div class="modal-body text-center">
 					<div class="errorhead"><img alt="" src="resources/images/icons/Messages_warning_caution_icon.svg" style="width: 25px;margin-top: -5px;">&nbsp; ERROR</div>
-					<div class="errorbody"><b>This indicator has already been added</b></div>
+					<div class="errorbody">This indicator has already been added</div>
 					<button type="button" class="btn errorOk" data-dismiss="modal" ng-click="clrIndicator()">Close</button>
 				</div>
 			</div>

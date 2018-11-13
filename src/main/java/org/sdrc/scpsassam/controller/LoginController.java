@@ -84,9 +84,41 @@ public class LoginController implements AuthenticationProvider {
 
 	@RequestMapping(value = "/")
 	public String authorize1(HttpServletResponse res, HttpServletRequest request, RedirectAttributes redirectAttributes, Model model) throws IOException {
+		UserModel userModel = ((UserModel) stateManager.getValue(Constants.Web.USER_PRINCIPAL));
+		if (userModel != null) {
+			
+			if (((UserModel) stateManager.getValue(Constants.Web.USER_PRINCIPAL)).getRoleId() == 3)// will
+				return "redirect:/indicatorManagement"; // properties
+			else {
+				if (dataEntryService.checkIfDataEntryDoneForMonth()) {
+					return "redirect:/submissionManagement";
+				}else {
+					return "redirect:/dataEntry";
+				}
+			}
+			
+		}
 		return "login";
 	}
 
+	@RequestMapping(value = "login")
+	public String login() {
+		UserModel userModel = ((UserModel) stateManager.getValue(Constants.Web.USER_PRINCIPAL));
+		if (userModel != null) {
+			if (((UserModel) stateManager.getValue(Constants.Web.USER_PRINCIPAL)).getRoleId() == 3)// will
+				return "redirect:/indicatorManagement"; // properties
+			else {
+				if (dataEntryService.checkIfDataEntryDoneForMonth()) {
+					return "redirect:/submissionManagement";
+				} else {
+					return "redirect:/dataEntry";
+				}
+			}
+		}
+		return "login";
+		
+		
+	}
 	/**
 	 * 
 	 * @param res

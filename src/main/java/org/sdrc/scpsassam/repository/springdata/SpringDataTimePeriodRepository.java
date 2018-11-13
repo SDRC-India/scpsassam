@@ -18,7 +18,7 @@ public interface SpringDataTimePeriodRepository extends TimePeriodRepository{
 			+ "AND data.source.indicatorClassificationId = :sourceNid ) order by time.startDate desc")
 	List<Timeperiod> findBySource_Nid(@Param("iusNid") Integer iusNid,@Param("sourceNid") Integer sourceNid) throws DataAccessException;
 
-	@Override
+	@Override 
 	@Query("SELECT time FROM Timeperiod time WHERE time.timeperiodId " +
 			" IN (SELECT distinct data.timePeriod FROM Data data  WHERE data.indicatorUnitSubgroup.indicatorUnitSubgroupId = :iusNid "
 			+ "AND data.source.indicatorClassificationId = :sourceNid and data.published=true)")
@@ -28,16 +28,11 @@ public interface SpringDataTimePeriodRepository extends TimePeriodRepository{
 	@Query(value="select t.* from time_period t "
 			+ "left outer join data d on t.timeperiod_id=d.time_period_id_fk "
 			+ " inner join indicator i on d.indicator_id_fk=i.indicator_id "
-			+ "where i.agency_id_fk= :agencyId and d.indicator_id_fk is not null group by t.timeperiod_id",nativeQuery=true)
+			+ "where i.agency_id_fk= :agencyId and d.indicator_id_fk is not null group by t.timeperiod_id order by t.start_date asc ",nativeQuery=true)
 	
 	public List<Timeperiod> findTimePeriodsPresentForDataOfMyAgencyAllPublishedAndUnPublished(@Param("agencyId") int agencyId);
 	
 	
-	@Override
-	@Query(value="select t.* from time_period t "
-			+ "left outer join data d on t.timeperiod_id=d.time_period_id_fk "
-			+ " inner join indicator i on d.indicator_id_fk=i.indicator_id "
-			+ "where i.agency_id_fk= :agencyId and d.published=true and d.indicator_id_fk is not null group by t.timeperiod_id",nativeQuery=true)
-	public List<Timeperiod> findTimePeriodsPresentForDataOfMyAgencyOnlyPublished(@Param("agencyId") int agencyId);
+	
 	
 }

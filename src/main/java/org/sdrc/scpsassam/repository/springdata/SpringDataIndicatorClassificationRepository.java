@@ -35,17 +35,6 @@ public interface SpringDataIndicatorClassificationRepository extends IndicatorCl
 			+ "ic.indicatorClassificationType='SC' and indi.agency_id_fk= :agencyId ORDER BY ic.parent_id, ic.classification_name Asc,indi.indicator_name",nativeQuery=true)
 	List<Object[]> findAllIndicatorsByAgency(@Param("agencyId")int agencyId);
 	
-//	@Override
-//	@Query(value="SELECT ic.indicator_classification_id as icNId, ic.parent_id as icParentNId, ic.classification_name as icName, "
-//			+ "ius.indicator_id_fk as indicatorNId, indi.indicator_name as indicatorName "
-//			+ "FROM indicator_classification as ic, "
-//			+ "ic_ius_mapping as icius, "
-//			+ "indicator_unit_subgroup as ius, "
-//			+ "indicator as indi "
-//			+ "WHERE ic.indicator_classification_id=icius.ic_fk and icius.ius_fk=ius.indicator_unit_subgroup_id and ius.indicator_id_fk=indi.indicator_id "
-//			+ "and ic.parent_id = :parentSectorId and ic.indicatorclassificationtype='SC' ORDER BY ic.parent_id",nativeQuery=true)
-//	public List<Object[]> findAllIndicatorsOfaSector(@Param("parentSectorId")Integer parentSectorId);
-//	
 	
 	@Override
 	@Query(value="SELECT ic.indicator_classification_id as icNId, ic.parent_id as icParentNId, ic.classification_name as icName, "

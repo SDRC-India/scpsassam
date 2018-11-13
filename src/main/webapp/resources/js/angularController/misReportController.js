@@ -15,7 +15,8 @@ function misReportController($scope, $http, $filter ,$timeout, $window,$compile)
 	
 	$scope.selectMonth = function(month)
 	{
-		$scope.year = "";
+		$scope.year = undefined;
+		$scope.yearid = undefined;
 		$scope.month = month.monthString;
 		$scope.monthid = month.month;
 		$scope.yearsScope = month.years;
@@ -32,6 +33,18 @@ function misReportController($scope, $http, $filter ,$timeout, $window,$compile)
 	
 	$scope.downloadExcel = function()
 	{
+		
+		if ($scope.month == undefined) {
+			$scope.errorMsg = "Please Select Month";
+			$('#errorMessage').modal("show");
+		}else if ($scope.yearid == undefined) {
+			$scope.errorMsg = "Please Select Year";
+			$('#errorMessage').modal("show");
+		}else if($scope.yearid == ""){
+			$scope.errorMsg = "Please Select Year";
+			$('#errorMessage').modal("show");
+		}
+		else{
 		var months = $scope.monthid;
 		var years = $scope.yearid;
 		   $("#loader-mask").show();
@@ -66,6 +79,6 @@ function misReportController($scope, $http, $filter ,$timeout, $window,$compile)
 
 	}
 	
-	
+	}
 	
 }

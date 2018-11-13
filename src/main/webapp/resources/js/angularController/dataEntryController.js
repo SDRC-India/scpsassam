@@ -179,10 +179,8 @@ function dataEntryController($scope, $http, $timeout){
 			});
 			
 		}	
-		
-		
-		
 	};
+	
 	
 	$scope.updateForm = function(){
 		var flag = false;
@@ -214,7 +212,7 @@ function dataEntryController($scope, $http, $timeout){
 					value.denominatorValue = Number(value.denominatorValue);
 				if(typeof(value.numeratorValue) == "string")
 					value.numeratorValue = Number(value.numeratorValue);
-				value.percentage = value.percentage.toString();
+					value.percentage = value.percentage.toString();
 			});
 			
 			var dataEntryObjArr = [];
@@ -238,6 +236,7 @@ function dataEntryController($scope, $http, $timeout){
 					$scope.infoMsg = result.message;
 					$("#updateinfoMessage").modal("show");
 				}else if(result.status == "400"){
+					
 					$scope.infoMsg = result.message;
 					$("#errorMessage").modal("show");
 				}
@@ -282,8 +281,7 @@ function dataEntryController($scope, $http, $timeout){
 				}else{
 					$("#" + id).removeClass("errorFound");
 				}
-			
-			}	
+			}
 			else{
 			$("#" + id).removeClass("errorFound");
 			}
